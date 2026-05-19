@@ -69,7 +69,7 @@
 %define _module_args KERNEL_UNAME=%{_kver} IGNORE_PREEMPT_RT_PRESENCE=1 SYSSRC=%{_builddir}/linux-%{_tag} SYSOUT=%{_builddir}/linux-%{_tag}
 
 Name:           kernel-cachyos-v4%{?_lto_args:-lto}
-Summary:        Linux BORE %{?_lto_args:+ LTO }Cachy Sauce Kernel by CachyOS with other patches and improvements.
+Summary:        Linux BORE %{?_lto_args:+ LTO }Cachy Sauce Kernel (x86_64-v4) by CachyOS with other patches and improvements.
 Version:        %{_basekver}.%{_stablekver}
 Release:        cachyos1.v4%{?_lto_args:.lto}%{?dist}
 License:        GPL-2.0-only
