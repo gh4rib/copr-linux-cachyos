@@ -173,8 +173,8 @@ Patch10:        %{_patch_src}/misc/nvidia/0001-Enable-atomic-kernel-modesetting-
     %if %{_x86_64_lvl} < 5 && %{_x86_64_lvl} > 0
         scripts/config --set-val X86_64_VERSION %{_x86_64_lvl}
     %else
-        echo "Invalid x86_64 ISA Level. Using x86_64_v3"
-        scripts/config --set-val X86_64_VERSION 3
+        echo "Invalid x86_64 ISA Level. Using x86_64_v4"
+        scripts/config --set-val X86_64_VERSION 4
     %endif
 
     # Enable Secure boot support
