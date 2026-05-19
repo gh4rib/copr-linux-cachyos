@@ -1,7 +1,7 @@
 <div align="center">
   <img src="https://github.com/CachyOS/calamares-config/blob/grub-3.2/etc/calamares/branding/cachyos/logo.png" width="64" alt="CachyOS logo"></img>
   <br/>
-  <h1 align="center">CachyOS COPR Repository for Fedora (AVX-512 / x86_64-v4)</h1>
+  <h1 align="center">CachyOS COPR Repository for Fedora (x86_64-v4)</h1>
   <p align="center">Goodies from CachyOS ported to Fedora, highly optimized for modern CPUs.</p>
 </div>
 
@@ -72,27 +72,27 @@ Now you can install the kernels:
 ### Default Kernel (BORE)
 
 ```bash
-sudo dnf install kernel-cachyos-v4 kernel-cachyos-devel-matched 
+sudo dnf install kernel-cachyos-v4 kernel-cachyos-v4-devel-matched 
 # or for LLVM-ThinLTO
-sudo dnf install kernel-cachyos-v4-lto kernel-cachyos-devel-matched
+sudo dnf install kernel-cachyos-v4-lto kernel-cachyos-v4-devel-matched
 
 ```
 
 ### LTS Kernel
 
 ```bash
-sudo dnf install kernel-cachyos-lts-v4 kernel-cachyos-lts-devel-matched
+sudo dnf install kernel-cachyos-lts-v4 kernel-cachyos-lts-v4-devel-matched
 # or for LLVM-ThinLTO
-sudo dnf install kernel-cachyos-lts-v4-lto kernel-cachyos-lts-devel-matched
+sudo dnf install kernel-cachyos-lts-v4-lto kernel-cachyos-lts-v4-devel-matched
 
 ```
 
 ### Real-time Kernel
 
 ```bash
-sudo dnf install kernel-cachyos-rt-v4 kernel-cachyos-rt-devel-matched
+sudo dnf install kernel-cachyos-rt-v4 kernel-cachyos-rt-v4-devel-matched
 # or for LLVM-ThinLTO
-sudo dnf install kernel-cachyos-rt-v4-lto kernel-cachyos-rt-devel-matched
+sudo dnf install kernel-cachyos-rt-v4-lto kernel-cachyos-rt-v4-devel-matched
 
 ```
 
