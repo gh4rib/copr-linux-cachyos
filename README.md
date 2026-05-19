@@ -1,11 +1,14 @@
 <div align="center">
   <img src="https://github.com/CachyOS/calamares-config/blob/grub-3.2/etc/calamares/branding/cachyos/logo.png" width="64" alt="CachyOS logo"></img>
   <br/>
-  <h1 align="center">CachyOS COPR Repository for Fedora</h1>
-  <p align="center">Goodies from CachyOS ported to Fedora.</p>
+  <h1 align="center">CachyOS COPR Repository for Fedora (AVX-512 / x86_64-v4)</h1>
+  <p align="center">Goodies from CachyOS ported to Fedora, highly optimized for modern CPUs.</p>
 </div>
 
-This repository is maintained by [@andersrh](https://github.com/andersrh) and [@TrixieUA](https://github.com/TrixieUA).
+> [!WARNING]
+> **Hardware Requirement:** This repository is strictly compiled for the **x86_64-v4** microarchitecture (requires AVX-512). If you install these kernels on older hardware (v2 or v3), your system **will experience a kernel panic on boot**. 
+> 
+> If your CPU does not support `v4`, please use the [original upstream project](https://github.com/CachyOS/copr-linux-cachyos) which provides `v3` and `v2` kernels.
 
 - [Kernels](#-kernels)
   - [Features](#-features)
@@ -19,87 +22,109 @@ This repository is maintained by [@andersrh](https://github.com/andersrh) and [@
 
 # 🐧 Kernels
 
-We offer a variety of CachyOS kernels ported to Fedora:
-- `kernel-cachyos` - 1000 Hz kernel with BORE scheduler
-- `kernel-cachyos-lts` - LTS kernel with BORE scheduler
-- `kernel-cachyos-rt` - Real-time kernel with BORE scheduler
-- `kernel-cachyos-server` - 300 Hz kernel with default EEVDF scheduler
+We offer a variety of CachyOS kernels ported and heavily optimized for Fedora (43, 44, Rawhide) and EPEL 10:
+- `kernel-cachyos-v4` - 1000 Hz kernel with BORE scheduler
+- `kernel-cachyos-lts-v4` - LTS kernel with BORE scheduler
+- `kernel-cachyos-rt-v4` - Real-time kernel with BORE scheduler
 
-For Fedora Workstation and Silverblue we recommend `kernel-cachyos` and for Fedora Server, Cloud and CoreOS we recommend `kernel-cachyos-server`. The LTS and Real-time kernels are for special use cases (think embedded systems) and are not recommended unless your application requires them.
+All variants are available compiled with either standard `GCC` or `LLVM-ThinLTO` (`-lto` packages).
 
 ## 📢 Announcement 2026/02/23
 **We have removed the support for prebuilt Nvidia drivers with the kernels.**
 The reason for this decision is a mismatch of release schedules between RPMFusion, Fedora and CachyOS. Following this decision we advise users to switch to either RPMFusion or Negativo17's Nvidia drivers.
 
 ## 🌟 Features
-- Choose between `GCC` and `LLVM-ThinLTO`
-- Optimized for `x86-64v4` CPUs for `kernel-cachyos` and `x86-64v2` for `kernel-cachyos-server`.
-- For `kernel-cachyos-lts`, `EPEL 10` target has `x86-64v3` optimization, other targets have `x86-64v2`.
-- BORE scheduler with sched-ext support (excl. `kernel-cachyos-server`, sched-ext support only for `kernel-cachyos`)
-- AMD P-State Preferred Core, AMD CPB Switch and upstream `amd-pstate` enchancements (exclusive to `kernel-cachyos`)
-- Cachy Sauce - Provides tweaks for the scheduler and other settings
-- Latest & improved ZSTD patchset
-- Improved BFQ Scheduler
-- BBRv3 tcp_congestion_control
-- v4l2loopback modules as default included
-- Cherry picked patches from Clear Linux
-- Backported patches from `linux-next`
-- OpenRGB and ACS Override support
-- NTSync patched and integrated into the kernel (exclusive to `kernel-cachyos`)
+- Strictly optimized for **`x86_64-v4`** CPUs across all builds (including LTS).
+- Target OS Support: Fedora 43, Fedora 44, Fedora Rawhide, and EPEL 10.
+- Choose between `GCC` and `LLVM-ThinLTO` builds.
+- BORE scheduler with sched-ext support.
+- AMD P-State Preferred Core, AMD CPB Switch and upstream `amd-pstate` enhancements.
+- Cachy Sauce - Provides tweaks for the scheduler and other settings.
+- Latest & improved ZSTD patchset.
+- Improved BFQ Scheduler.
+- BBRv3 tcp_congestion_control.
+- v4l2loopback modules included by default.
+- Cherry picked patches from Clear Linux.
+- Backported patches from `linux-next`.
+- OpenRGB and ACS Override support.
+- NTSync patched and integrated into the kernel.
 
 ## ⬇️ Installation Instructions
-Make sure your CPU supports the higher target `x86-64` architectures. You need minimum `x86-64-v3` for all kernels, except `kernel-cachyos-lts` and `kernel-cachyos-server` that only require `x86-64-v2`.
+**Crucial Step:** Make absolutely sure your CPU supports the `x86_64-v4` instruction set before proceeding. 
+
+Run this command in your terminal:
 ```bash
-/lib64/ld-linux-x86-64.so.2 --help | grep "(supported, searched)"
+/lib64/ld-linux-x86-64.so.2 --help | grep "x86-64-v4 (supported, searched)"
+
 ```
 
-Next, enable the COPR repository hosting the kernels.
+*If this command returns nothing, DO NOT install these kernels.*
+
+Next, enable the COPR repository hosting the kernels:
+
 ```bash
-sudo dnf copr enable bieszczaders/kernel-cachyos # For GCC built kernels
-# or
-sudo dnf copr enable bieszczaders/kernel-cachyos-lto # For LLVM-ThinLTO build kernels
+sudo dnf copr enable gharib/kernel-cachyos-v4
+
 ```
 
-Now you can install the kernels
+Now you can install the kernels:
+
+### Default Kernel (BORE)
+
 ```bash
-sudo dnf install kernel-cachyos kernel-cachyos-devel-matched # For GCC built kernels
-# or
-sudo dnf install kernel-cachyos-lto kernel-cachyos-lto-devel-matched # For LLVM-ThinLTO built kernels
+sudo dnf install kernel-cachyos-v4 kernel-cachyos-devel-matched 
+# or for LLVM-ThinLTO
+sudo dnf install kernel-cachyos-v4-lto kernel-cachyos-devel-matched
 
-## LTS Kernel
-sudo dnf install kernel-cachyos-lts kernel-cachyos-lts-devel-matched
-# or
-sudo dnf install kernel-cachyos-lts-lto kernel-cachyos-lts-lto-devel-matched
-
-## Real-time Kernel
-sudo dnf install kernel-cachyos-rt kernel-cachyos-rt-devel-matched
-
-## Server Kernel
-sudo dnf install kernel-cachyos-server kernel-cachyos-server-devel-matched
 ```
 
-🚨 Lastly if you use SELinux, you need to enable the necessary policy to be able to load kernel modules.
+### LTS Kernel
+
+```bash
+sudo dnf install kernel-cachyos-lts-v4 kernel-cachyos-lts-devel-matched
+# or for LLVM-ThinLTO
+sudo dnf install kernel-cachyos-lts-v4-lto kernel-cachyos-lts-devel-matched
+
+```
+
+### Real-time Kernel
+
+```bash
+sudo dnf install kernel-cachyos-rt-v4 kernel-cachyos-rt-devel-matched
+# or for LLVM-ThinLTO
+sudo dnf install kernel-cachyos-rt-v4-lto kernel-cachyos-rt-devel-matched
+
+```
+
+🚨 Lastly, if you use SELinux, you need to enable the necessary policy to be able to load kernel modules:
+
 ```bash
 sudo setsebool -P domain_kernel_load_modules on
+
 ```
 
 ### Fedora Silverblue
+
 ```bash
 cd /etc/yum.repos.d/
-sudo wget https://copr.fedorainfracloud.org/coprs/bieszczaders/kernel-cachyos/repo/fedora-$(rpm -E %fedora)/bieszczaders-kernel-cachyos-fedora-$(rpm -E %fedora).repo
-sudo rpm-ostree override remove kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra --install kernel-cachyos
+sudo wget [https://copr.fedorainfracloud.org/coprs/gharib/kernel-cachyos-v4/repo/fedora-$](https://copr.fedorainfracloud.org/coprs/gharib/kernel-cachyos-v4/repo/fedora-$)(rpm -E %fedora)/gharib-kernel-cachyos-v4-fedora-$(rpm -E %fedora).repo
+sudo rpm-ostree override remove kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra --install kernel-cachyos-v4
 sudo systemctl reboot
+
 ```
 
-### Default Kernel
-By default Fedora will use the kernel that was most recently updated by `dnf` which will lead to inconsistent behaviour if you have multiple kernels installed, but we can tell Fedora to always boot with the latest CachyOS kernel by running a script after kernel updates.
+### Default Kernel Setup
+
+By default, Fedora will use the kernel that was most recently updated by `dnf`, which will lead to inconsistent behavior if you have multiple kernels installed. We can tell Fedora to always boot with the latest CachyOS kernel by running a script after kernel updates.
 
 Create a file in `/etc/kernel/postinst.d`:
+
 ```bash
 sudo nano /etc/kernel/postinst.d/99-default
 ```
 
-Enter the following content that will set the latest CachyOS kernel as the default kernel:
+Enter the following content:
+
 ```bash
 #!/bin/sh
 
@@ -109,64 +134,66 @@ grubby --set-default=/boot/$(ls /boot | grep vmlinuz.*cachy | sort -V | tail -1)
 ```
 
 Make `root` the owner and make the script executable:
+
 ```bash
 sudo chown root:root /etc/kernel/postinst.d/99-default ; sudo chmod u+rx /etc/kernel/postinst.d/99-default
 ```
 
-The next time any installed kernel (e.g. the official Fedora kernel) gets an update, the system will change default kernel back to the latest CachyOS kernel. This way you can keep the official kernel as a backup in case an update goes wrong and you need to temporarily switch to the official kernel.
+The next time any installed kernel gets an update, the system will change the default kernel back to the latest CachyOS kernel. This way you can keep the official Fedora kernel as a fallback backup.
 
 # 🧩 Addons
+
 We provide a few addons that supplement the kernel packages and system.
-- [CachyOS-Settings](https://github.com/CachyOS/CachyOS-Settings) - Settings used in CachyOS (includes modprobe config, udev rules, etc) packaged for Fedora.
-- [scx-scheds](https://github.com/sched-ext/scx) - sched-ext schedulers. Provides both `scx-scheds` releases and `scx-scheds-git` package.
-- [scx-manager](https://github.com/CachyOS/scx-manager/) - Simple GUI for managing sched-ext schedulers via scx_loader.
-- [ananicy-cpp](https://gitlab.com/ananicy-cpp/ananicy-cpp/) & [cachyos-ananicy-rules](https://github.com/CachyOS/ananicy-rules) - Auto nice daemon with rules support.
+
+* [CachyOS-Settings](https://github.com/CachyOS/CachyOS-Settings) - Settings used in CachyOS (includes modprobe config, udev rules, etc) packaged for Fedora.
+* [scx-scheds](https://github.com/sched-ext/scx) - sched-ext schedulers. Provides both `scx-scheds` releases and `scx-scheds-git` package.
+* [scx-manager](https://github.com/CachyOS/scx-manager/) - Simple GUI for managing sched-ext schedulers via scx_loader.
+* [ananicy-cpp](https://gitlab.com/ananicy-cpp/ananicy-cpp/) & [cachyos-ananicy-rules](https://github.com/CachyOS/ananicy-rules) - Auto nice daemon with rules support.
 
 ## ⬇️ Installation instructions
-First, enable the COPR repository hosting addon packages.
+
+*(Note: If you are strictly pulling addons from the upstream project, use the bieszczaders repo below. Otherwise, replace with your own addon COPR if you fork them).*
+
 ```bash
 sudo dnf copr enable bieszczaders/kernel-cachyos-addons
 ```
 
-Now you can install the addon packages.
-
 ### CachyOS-Settings
+
 ```bash
 sudo dnf swap zram-generator-defaults cachyos-settings
 sudo dracut -f
 ```
 
 ### scx-scheds and scx-tools
+
 ```bash
 sudo dnf install scx-scheds scx-tools
 ```
+
 or -git packages
+
 ```bash
 sudo dnf install scx-scheds-git scx-tools-git
-
 ```
+
 **For Fedora Silverblue / Kinoite:**
 
 ```bash
 sudo rpm-ostree install scx-scheds scx-tools
 sudo systemctl reboot
-```
-or -git packages
-```bash
-sudo rpm-ostree install scx-scheds-git scx-tools-git
-sudo systemctl reboot
+
 ```
 
 You can use [scxctl](https://github.com/sched-ext/scx-loader/blob/main/crates/scxctl/README.md) to start/change the scheduler with profiles/custom flags.
 
 📖 Usage guide available in the [CachyOS wiki](https://wiki.cachyos.org/configuration/sched-ext/).
 
-Starting with version 1.0.18, scx_loader and scxctl have been moved to a separate repository. Remember to install `scx-tools` if you plan to continue using these tools! 
-
 ### scx-manager
 
 ```
 sudo dnf install scx-manager
+
 ```
 
 ### ananicy-cpp
@@ -176,4 +203,9 @@ sudo dnf install scx-manager
 ```bash
 sudo dnf install ananicy-cpp
 sudo systemctl enable --now ananicy-cpp
+
 ```
+
+## Thanks
+Special Thanks to [@andersrh](https://github.com/andersrh), [@TrixieUA](https://github.com/TrixieUA) and [CachyOS Team](https://github.com/CachyOS) for providing anything in this repository.
+Actually I have made some little changes to the spec files and compiled them!
