@@ -11,7 +11,7 @@
 
 # Linux Kernel Versions
 %define _basekver 7.0
-%define _stablekver 8
+%define _stablekver 9
 %define _rpmver %{version}-%{release}
 %define _kver %{_rpmver}.%{_arch}
 
@@ -68,17 +68,17 @@
 
 %define _module_args KERNEL_UNAME=%{_kver} IGNORE_PREEMPT_RT_PRESENCE=1 SYSSRC=%{_builddir}/linux-%{_tag} SYSOUT=%{_builddir}/linux-%{_tag}
 
-Name:           kernel-cachyos-rt%{?_lto_args:-lto}
+Name:           kernel-cachyos-rt-v3%{?_lto_args:-lto}
 Summary:        Linux BORE %{?_lto_args:+ LTO }Cachy Sauce Kernel by CachyOS with other patches and improvements.
 Version:        %{_basekver}.%{_stablekver}
-Release:        cachyos1%{?_lto_args:.lto}%{?dist}
+Release:        cachyos1.rt.v3%{?_lto_args:.lto}%{?dist}
 License:        GPL-2.0-only
 URL:            https://cachyos.org
 
 Requires:       kernel-core-uname-r = %{_kver}
 Requires:       kernel-modules-uname-r = %{_kver}
 Requires:       kernel-modules-core-uname-r = %{_kver}
-Provides:       kernel-cachyos-rt%{?_lto_args:-lto} > 6.12.9-cbrt1.0%{?_lto_args:.lto}%{?dist}
+Provides:       kernel-cachyos-rt-v3%{?_lto_args:-lto} > 6.12.9-cbrt1.0%{?_lto_args:.lto}%{?dist}
 Provides:       installonlypkg(kernel)
 Obsoletes:      kernel-cachyos-rt%{?_lto_args:-lto} <= 6.12.9-cbrt1.0%{?_lto_args:.lto}%{?dist}
 
