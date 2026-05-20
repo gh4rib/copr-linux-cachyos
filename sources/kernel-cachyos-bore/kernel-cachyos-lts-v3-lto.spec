@@ -52,11 +52,7 @@
 # Valid values are 1-4
 # An invalid value will continue and use
 # x86_64_v3
-%if 0%{?rhel} >= 10
 %define _x86_64_lvl 3
-%else
-%define _x86_64_lvl 2
-%endif
 
 # Define variables for directory paths
 # to be used during packaging
@@ -72,17 +68,17 @@
 
 %define _module_args KERNEL_UNAME=%{_kver} IGNORE_PREEMPT_RT_PRESENCE=1 SYSSRC=%{_builddir}/linux-%{_tag} SYSOUT=%{_builddir}/linux-%{_tag}
 
-Name:           kernel-cachyos-lts%{?_lto_args:-lto}
+Name:           kernel-cachyos-lts-v3%{?_lto_args:-lto}
 Summary:        Linux BORE %{?_lto_args:+ LTO }Cachy Sauce Kernel by CachyOS with other patches and improvements.
 Version:        %{_basekver}.%{_stablekver}
-Release:        cachylts1%{?_lto_args:.lto}%{?dist}
+Release:        cachylts1.v3%{?_lto_args:.lto}%{?dist}
 License:        GPL-2.0-only
 URL:            https://cachyos.org
 
 Requires:       kernel-core-uname-r = %{_kver}
 Requires:       kernel-modules-uname-r = %{_kver}
 Requires:       kernel-modules-core-uname-r = %{_kver}
-Provides:       kernel-cachyos-lts%{?_lto_args:-lto} > 6.6.71-clts1.0%{?_lto_args:.lto}%{?dist}
+Provides:       kernel-cachyos-lts-v3%{?_lto_args:-lto} > 6.6.71-clts1.0%{?_lto_args:.lto}%{?dist}
 Provides:       installonlypkg(kernel)
 Obsoletes:      kernel-cachyos-lts%{?_lto_args:-lto} <= 6.6.71-clts1.0%{?_lto_args:.lto}%{?dist}
 
