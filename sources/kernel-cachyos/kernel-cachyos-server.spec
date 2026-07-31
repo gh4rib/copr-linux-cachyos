@@ -11,7 +11,7 @@
 
 # Linux Kernel Versions
 %define _basekver 7.0
-%define _stablekver 8
+%define _stablekver 12
 %define _rpmver %{version}-%{release}
 %define _kver %{_rpmver}.%{_arch}
 
@@ -52,7 +52,7 @@
 # Valid values are 1-4
 # An invalid value will continue and use
 # x86_64_v3
-%define _x86_64_lvl 2
+%define _x86_64_lvl 3
 
 # Define variables for directory paths
 # to be used during packaging
